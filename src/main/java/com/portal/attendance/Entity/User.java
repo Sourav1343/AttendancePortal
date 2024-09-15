@@ -1,6 +1,7 @@
 package com.portal.attendance.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,9 @@ public class User {
     @Column(name = "punch_time", nullable = false)
     @NotNull(message = "Punch time is mandatory")
     @PastOrPresent(message = "Punch time cannot be in the future")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt = LocalDateTime.now();
+
+
 
 }

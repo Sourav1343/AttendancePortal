@@ -2,6 +2,7 @@ package com.portal.attendance.controller;
 
 
 import com.portal.attendance.Entity.User;
+import com.portal.attendance.exception.DuplicateEmailException;
 import com.portal.attendance.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -48,11 +49,11 @@ public class UserController {
         }
 
         try {
-            // Save the user using the service
+            // Delegate the user creation to the service
             userService.saveUser(user);
             logger.info("User created successfully: {}", user.getUserId());
             return ResponseEntity.ok("User created successfully");
-        } catch (IllegalArgumentException e) {
+        } catch (DuplicateEmailException e) {
             logger.error("Error creating user {}: {}", user.getUserId(), e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (RuntimeException e) {
@@ -60,4 +61,5 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An internal error occurred");
         }
     }
+
 }
